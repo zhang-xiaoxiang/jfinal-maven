@@ -112,15 +112,32 @@ public class DemoConfig extends JFinalConfig {
     @Override
     public void configPlugin(Plugins me) {
 
+        // DruidPlugin dp = new DruidPlugin(PropKit.use("application.properties").get("jdbcUrl"),
+        //         PropKit.use("application.properties").get("user"),
+        //         PropKit.use("application.properties").get("password"));
+        //
+        // me.add(dp);
+        // ActiveRecordPlugin arp = new ActiveRecordPlugin(dp);
+        //
+        // me.add(arp);
+
+        // base model 所使用的包名
+        String baseModelPkg = "model.base";
+// base model 文件保存路径
+        String baseModelDir = PathKit.getWebRootPath() + "/../src/model/base";
+
+// model 所使用的包名
+        String modelPkg = "model";
+// model 文件保存路径
+        String modelDir = baseModelDir + "/..";
         DruidPlugin dp = new DruidPlugin(PropKit.use("application.properties").get("jdbcUrl"),
                 PropKit.use("application.properties").get("user"),
-                PropKit.use("application.properties").get("password"));
-
-        me.add(dp);
-        ActiveRecordPlugin arp = new ActiveRecordPlugin(dp);
-
-        me.add(arp);
-
+                PropKit.use("application.properties").get("password").trim());
+        dp.start();
+        Generator gernerator = new Generator(dp.getDataSource(), baseModelPkg, baseModelDir, modelPkg, modelDir);
+// 在 getter、setter 方法上生成字段备注内容
+        gernerator.setGenerateRemarks(true);
+        gernerator.generate();
 
 
     }
