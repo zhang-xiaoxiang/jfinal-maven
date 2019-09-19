@@ -126,9 +126,11 @@ public class DemoConfig extends JFinalConfig {
     }
 
     public static DruidPlugin createDruidPlugin() {
+
         DruidPlugin dp = new DruidPlugin(PropKit.use("application.properties").get("jdbcUrl"),
                 PropKit.use("application.properties").get("user"),
                 PropKit.use("application.properties").get("password").trim());
+
         return dp;
     }
 
