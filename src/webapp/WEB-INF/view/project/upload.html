@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+</head>
+<body>
+
+<script type="text/javascript">
+    //单文件上传文件
+    function uploadFile(){
+        var form = $("#uploadFile");
+        var options  = {
+            url:'uploadFile',
+            type:'post',
+            //data:{},
+            success:function(data){
+                var htmlToJson = JSON.parse(data);
+                if(htmlToJson.ifSuccess=="success"){
+                    alert("文件上传成功！");
+                }
+            }
+        };
+        form.ajaxSubmit(options);
+    }
+
+    //多文件上传
+    function moreUploadFile(){
+        var form = $("#moreFile");
+        var options  = {
+            url:'moreUploadFile',
+            type:'post',
+            //data:{},
+            success:function(data){
+                var htmlToJson = JSON.parse(data);
+                if(htmlToJson.ifSuccess=="success"){
+                    alert("文件上传成功！");
+                }
+            }
+        };
+        form.ajaxSubmit(options);
+    }
+
+</script>
+
+<form id="uploadFile" enctype="multipart/form-data">
+    <span>文件上传：</span>
+    <input type="file" id="fileText" name="fileText" placeholder="请选择文件"/><br><br>
+    <span>测试其他的参数：</span>
+    <input  name="otherValue" value="" placeholder="请输入其余参数"/>
+    <a href="javascript:void(0)" onclick="uploadFile()" >上传</a>
+</form>
+
+
+<form id="moreFile" enctype="multipart/form-data">
+    <span>多文件上传：</span>
+    <input type="file" name="moreFile" multiple="multiple" value="" placeholder="请选择文件"/><br><br>
+    <a href="javascript:void(0)" onclick="moreUploadFile()" >上传</a>
+</form>
+</body>
+</html>
