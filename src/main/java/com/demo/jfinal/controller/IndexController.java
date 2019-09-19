@@ -1,6 +1,5 @@
 package com.demo.jfinal.controller;
 
-import com.demo.jfinal.entity.User;
 import com.jfinal.core.Controller;
 import com.jfinal.core.NotAction;
 import com.jfinal.core.paragetter.Para;

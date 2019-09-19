@@ -1,16 +1,30 @@
 package com.demo.jfinal.config;
 
+import com.alibaba.druid.pool.DruidDataSource;
 import com.demo.jfinal.controller.IndexController;
 import com.demo.jfinal.controller.ProjectController;
 import com.jfinal.config.*;
+import com.jfinal.kit.PathKit;
+import com.jfinal.kit.Prop;
+import com.jfinal.kit.PropKit;
+import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
+import com.jfinal.plugin.activerecord.generator.Generator;
+import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.server.undertow.UndertowServer;
 import com.jfinal.template.Engine;
 
 public class DemoConfig extends JFinalConfig {
+    /**
+     * 方便读取配置文件
+     */
+    static Prop p;
 
     public static void main(String[] args) {
         UndertowServer.start(DemoConfig.class, 80, true);
+        System.out.println("页面       http://localhost/project/project");
+        System.out.println("返回字符串  http://localhost/hello/hello2");
     }
+
 
     /**
      * 此方法用来配置JFinal常量值
@@ -24,7 +38,14 @@ public class DemoConfig extends JFinalConfig {
         //文件下载与上传的配置基础路径
         me.setBaseDownloadPath("files");
         me.setBaseUploadPath("/upload");
+
+        // 开启对 jfinal web 项目组件 Controller、Interceptor、Validator 的注入,类似spring的自动注入
+        me.setInjectDependency(true);
+        // 开启对超类的注入。不开启时可以在超类中通过 Aop.get(...) 进行注入
+        me.setInjectSuperClass(true);
+
     }
+
 
     /**
      * 此方法用来配置访问路由，如下代码配置了将 "/hello" 映射到HelloController这个控制器，
@@ -63,10 +84,6 @@ public class DemoConfig extends JFinalConfig {
         me.add("/uploadFile", ProjectController.class);
 
 
-
-
-
-
         me.add("/hello", IndexController.class);
         me.add("/hello2", IndexController.class);
         me.add("/test", IndexController.class);
@@ -75,6 +92,7 @@ public class DemoConfig extends JFinalConfig {
 
     /**
      * 此方法用来配置Template Engine
+     *
      * @param me
      */
     @Override
@@ -85,26 +103,39 @@ public class DemoConfig extends JFinalConfig {
     }
 
     /**
-     * 此方法用来配置JFinal的Plugin，
+     * 此方法用来配置JFinal的Plugin，操作数据库的
      * 如下代码配置了Druid数据库连接池插件与ActiveRecord数据库访问插件。
      * 通过以下的配置，可以在应用中使用ActiveRecord非常方便地操作数据库
+     *
      * @param me
      */
     @Override
     public void configPlugin(Plugins me) {
 
-            // DruidPlugin dp = new DruidPlugin("jdbc:mysql://localhost/db_name", "userName", "password");
-            // me.add(dp);
-            // ActiveRecordPlugin arp = new ActiveRecordPlugin(dp);
-            // me.add(arp);
-            // arp.addMapping("user", User.class);
-            // arp.addMapping("article", "article_id", Address.class);
+        DruidPlugin dp = new DruidPlugin(PropKit.use("application.properties").get("jdbcUrl"),
+                PropKit.use("application.properties").get("user"),
+                PropKit.use("application.properties").get("password"));
 
+        me.add(dp);
+        ActiveRecordPlugin arp = new ActiveRecordPlugin(dp);
+
+        me.add(arp);
+
+
+
+    }
+
+    public static DruidPlugin createDruidPlugin() {
+        DruidPlugin dp = new DruidPlugin(PropKit.use("application.properties").get("jdbcUrl"),
+                PropKit.use("application.properties").get("user"),
+                PropKit.use("application.properties").get("password").trim());
+        return dp;
     }
 
     /**
      * 此方法用来配置JFinal的全局拦截器，全局拦截器将拦截所有 action 请求，
      * 除非使用@Clear在Controller中清除，如下代码配置了名为AuthInterceptor的拦截器
+     *
      * @param me
      */
     @Override
@@ -116,6 +147,7 @@ public class DemoConfig extends JFinalConfig {
     /**
      * 此方法用来配置JFinal的Handler，如下代码配置了名为ResourceHandler的处理器，
      * Handler可以接管所有web请求，并对应用拥有完全的控制权，可以很方便地实现更高层的功能性扩展
+     *
      * @param me
      */
     @Override
@@ -125,7 +157,7 @@ public class DemoConfig extends JFinalConfig {
     }
 
     /**
-     *  系统启动完成后回调
+     * 系统启动完成后回调
      */
     @Override
     public void onStart() {
