@@ -1,6 +1,6 @@
 package com.demo.jfinal.util;
 
-import com.demo.jfinal.config.AppConfig;
+import com.demo.jfinal.config.JfinalConfig;
 import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activerecord.dialect.MysqlDialect;
 import com.jfinal.plugin.activerecord.generator.Generator;
@@ -18,7 +18,7 @@ import javax.sql.DataSource;
 public class JfinalModelGenerator {
 
     public static DataSource getDataSource() {
-        DruidPlugin druidPlugin = AppConfig.createDruidPlugin();
+        DruidPlugin druidPlugin = JfinalConfig.createDruidPlugin();
         druidPlugin.start();
         return druidPlugin.getDataSource();
     }

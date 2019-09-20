@@ -1,6 +1,6 @@
 package com.demo.jfinal;
 
-import com.demo.jfinal.config.AppConfig;
+import com.demo.jfinal.config.JfinalConfig;
 import com.jfinal.server.undertow.UndertowServer;
 
 /**
@@ -11,7 +11,7 @@ import com.jfinal.server.undertow.UndertowServer;
  */
 public class JfinalApp {
     public static void main(String[] args) {
-        UndertowServer.start(AppConfig.class, 80, true);
+        UndertowServer.start(JfinalConfig.class, 80, true);
         System.out.println("页面       http://localhost/project/project");
         System.out.println("返回字符串  http://localhost/hello/hello2");
         System.out.println("查询数据库  http://localhost/user/user");

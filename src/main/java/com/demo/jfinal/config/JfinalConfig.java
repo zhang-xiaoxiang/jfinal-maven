@@ -16,7 +16,7 @@ import com.jfinal.template.Engine;
  * @author zhangxiaoxiang
  * @date 2019/9/20
  */
-public class AppConfig extends JFinalConfig {
+public class JfinalConfig extends JFinalConfig {
     /**
      * 此方法用来配置JFinal常量值
      *
