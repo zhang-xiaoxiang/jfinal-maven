@@ -5,29 +5,18 @@ import com.demo.jfinal.controller.ProjectController;
 import com.demo.jfinal.controller.UserController;
 import com.demo.jfinal.model._MappingKit;
 import com.jfinal.config.*;
-import com.jfinal.kit.Prop;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
-import com.jfinal.server.undertow.UndertowServer;
 import com.jfinal.template.Engine;
+
 /**
- * DemoConfig:
- * @author XXX
+ * AppConfig:jfinal的各种配置类
+ *
+ * @author zhangxiaoxiang
  * @date 2019/9/20
  */
-
-
 public class AppConfig extends JFinalConfig {
-
-
-    public static void main(String[] args) {
-        UndertowServer.start(AppConfig.class, 80, true);
-        System.out.println("页面       http://localhost/project/project");
-        System.out.println("返回字符串  http://localhost/hello/hello2");
-    }
-
-
     /**
      * 此方法用来配置JFinal常量值
      *
@@ -40,14 +29,11 @@ public class AppConfig extends JFinalConfig {
         //文件下载与上传的配置基础路径
         me.setBaseDownloadPath("files");
         me.setBaseUploadPath("/upload");
-
         // 开启对 jfinal web 项目组件 Controller、Interceptor、Validator 的注入,类似spring的自动注入
         me.setInjectDependency(true);
         // 开启对超类的注入。不开启时可以在超类中通过 Aop.get(...) 进行注入
         me.setInjectSuperClass(true);
-
     }
-
 
     /**
      * 此方法用来配置访问路由，如下代码配置了将 "/hello" 映射到HelloController这个控制器，
@@ -58,21 +44,9 @@ public class AppConfig extends JFinalConfig {
      */
     @Override
     public void configRoute(Routes me) {
-        // 如果要将控制器超类中的 public 方法映射为 action 配置成 true，一般不用配置
-        //  jfinal 3.6 新增了一个配置方法：setMappingSuperClass(boolean)，默认值为 false。
-        //  配置成为 true 时，你的 controller 的超类中的 public 方法也将会映射成 action。
-        //  如果你的项目中使用了 jfinal weixin 项目的 MsgController，则需要将其配置成 true，
-        //  因为 MsgController 中的 index() 需要被映射成 action 才能正常分发微信服务端的消息。
-        // me.setMappingSuperClass(false);
-        // me.setBaseViewPath("/view");
-        //前面是接口(spring叫法),后面是接口所在的控制层的类
-
-        // baseViewPath 为 "src/webapp/WEB-INF/view"，该 Routes 对象之下映射的所有 Controller 都将取这个值(这是maven和动态web的不同之处)
         me.setBaseViewPath("src/webapp/WEB-INF/view");
-
         // basePath 为第三个参数 "/index"
         me.add("/", IndexController.class, "/index");
-
         // 第三个参数省略时， basePath 取第一个参数的值 : "/project"
         me.add("/project", ProjectController.class);
         me.add("/testGetFile", ProjectController.class);
@@ -82,15 +56,13 @@ public class AppConfig extends JFinalConfig {
         me.add("/upload", ProjectController.class);
         me.add("/testUploadFile", ProjectController.class);
         me.add("/gotoUploadFile", ProjectController.class);
-        //网络上的
+        //网络上的(暂时以没有成功)
         me.add("/uploadFile", ProjectController.class);
-
-
         me.add("/hello", IndexController.class);
         me.add("/hello2", IndexController.class);
         me.add("/test", IndexController.class);
         me.add("/testParam", IndexController.class);
-        me.add("/getUser", UserController.class);
+        me.add("/user", UserController.class);
     }
 
     /**
@@ -123,14 +95,12 @@ public class AppConfig extends JFinalConfig {
         //下面是手动配置的(不推荐)
         // arp.addMapping("user", "user_id",User.class);
         //这是生成后添加的_MappingKit这是官方起的名字(建议不用改了),这里不配置操作数据库就会出现空指针
-         _MappingKit.mapping(arp);
-
-
-
+        _MappingKit.mapping(arp);
     }
 
     /**
      * 逆向生成数据库需要的插件
+     *
      * @return
      */
     public static DruidPlugin createDruidPlugin() {
