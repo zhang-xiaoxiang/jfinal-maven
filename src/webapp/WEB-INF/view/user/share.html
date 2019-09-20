@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+我是共享模板引擎22 #(1+6)  分页数据#(testpage)  #(key)
+
+</br>
+
+#(3 > 2 ? "3大于2" :"放屁")</br>
+
+#if(1==1)
+"测试哈哈哈"
+#end
+
+#if(1!=1)
+"测试哈哈2"
+#end
+
+#for(testpage : listAaa)
+#(for.index)
+#(listAaa.user_name)
+
+
+#end
+
+### 这里是单行注释
+
+#--
+这里是多行注释的第一行
+这里是多行注释的第二行
+--#
+</body>
+</html>

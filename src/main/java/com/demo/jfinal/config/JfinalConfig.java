@@ -5,7 +5,9 @@ import com.demo.jfinal.controller.ProjectController;
 import com.demo.jfinal.controller.UserController;
 import com.demo.jfinal.model._MappingKit;
 import com.jfinal.config.*;
+import com.jfinal.json.FastJsonFactory;
 import com.jfinal.kit.PropKit;
+import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.template.Engine;
@@ -17,24 +19,6 @@ import com.jfinal.template.Engine;
  * @date 2019/9/20
  */
 public class JfinalConfig extends JFinalConfig {
-    /**
-     * 此方法用来配置JFinal常量值
-     *
-     * @param me
-     */
-    @Override
-    public void configConstant(Constants me) {
-        //如开发模式常量devMode的配置，如下代码配置了JFinal运行在开发模式
-        me.setDevMode(true);
-        //文件下载与上传的配置基础路径
-        me.setBaseDownloadPath("files");
-        me.setBaseUploadPath("/upload");
-        // 开启对 jfinal web 项目组件 Controller、Interceptor、Validator 的注入,类似spring的自动注入
-        me.setInjectDependency(true);
-        // 开启对超类的注入。不开启时可以在超类中通过 Aop.get(...) 进行注入
-        me.setInjectSuperClass(true);
-    }
-
     /**
      * 此方法用来配置访问路由，如下代码配置了将 "/hello" 映射到HelloController这个控制器，
      * 通过以下的配置，http://localhost/hello  将访问 HelloController.index() 方法，
@@ -63,18 +47,50 @@ public class JfinalConfig extends JFinalConfig {
         me.add("/test", IndexController.class);
         me.add("/testParam", IndexController.class);
         me.add("/user", UserController.class);
+        me.add("/adduser", UserController.class);
+        me.add("/deluser", UserController.class);
+        me.add("/test1", UserController.class);
+        me.add("/test2", UserController.class);
+        me.add("/relation", UserController.class);
+        me.add("/test3", UserController.class);
     }
 
+
     /**
-     * 此方法用来配置Template Engine
+     * 此方法用来配置JFinal常量值
+     *
+     * @param me
+     */
+    @Override
+    public void configConstant(Constants me) {
+        //如开发模式常量devMode的配置，如下代码配置了JFinal运行在开发模式
+        me.setDevMode(true);
+        //文件下载与上传的配置基础路径
+        me.setBaseDownloadPath("files");
+        me.setBaseUploadPath("/upload");
+        // 开启对 jfinal web 项目组件 Controller、Interceptor、Validator 的注入,类似spring的自动注入
+        me.setInjectDependency(true);
+        // 开启对超类的注入。不开启时可以在超类中通过 Aop.get(...) 进行注入
+        me.setInjectSuperClass(true);
+        // jfinal 官方提供了 Json  抽象类的三个实现：JFinalJson、FastJson、Jackson，
+        // 如果不进行配置，那么默认使用 JFinalJson 实现(注意添加相关的依赖)
+        me.setJsonFactory(new FastJsonFactory());
+    }
+
+
+    /**
+     * 此方法用来配置Template Engine 模板引擎
      *
      * @param me
      */
     @Override
     public void configEngine(Engine me) {
-        // me.addSharedFunction("/view/common/layout.html");
-        // me.addSharedFunction("/view/common/paginate.html");
-        // me.addSharedFunction("/view/admin/common/layout.html");
+        // 支持模板热加载，绝大多数生产环境下也建议配置成 true，除非是极端高性能的场景
+        me.setDevMode(true);
+        // 添加共享模板函数
+        me.addSharedFunction("src/webapp/WEB-INF/view/common/share.html");
+        // 配置极速模式，性能提升 13%
+        Engine.setFastMode(true);
     }
 
     /**
@@ -96,6 +112,26 @@ public class JfinalConfig extends JFinalConfig {
         // arp.addMapping("user", "user_id",User.class);
         //这是生成后添加的_MappingKit这是官方起的名字(建议不用改了),这里不配置操作数据库就会出现空指针
         _MappingKit.mapping(arp);
+
+
+        //配置模板引擎
+        Engine engine = arp.getEngine();
+        // 上面的代码获取到了用于 sql 管理功能的 Engine 对象，接着就可以开始配置了
+        engine.setToClassPathSourceFactory();
+        engine.addSharedMethod(new StrKit());
+        me.add(arp);
+
+        // 创建一个 Engine 对象并进行配置
+        // Engine forEmail = Engine.create("forEmail");
+        // forEmail.addSharedMethod(EmailKit.class);
+        // forEmail.addSharedFunction("email-function.txt");
+
+        // 创建另一个 Engine 对象并进行配置
+        //         Engine forWeixin = Engine.create("forWeixin");
+        //         forWeixin.addSharedMethod(WeixinKit.class);
+        //         forWeixin.addSharedFunction("weixin-function.txt");
+
+
     }
 
     /**
