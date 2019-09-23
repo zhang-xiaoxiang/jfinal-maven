@@ -28,31 +28,26 @@ public class JfinalConfig extends JFinalConfig {
      */
     @Override
     public void configRoute(Routes me) {
+        //配置一个模块对应的controller,里面可以包含很多接口(就是action哈,老夫叫不惯)
+        me.add("/index", IndexController.class);
+
         me.setBaseViewPath("src/webapp/WEB-INF/view");
         // basePath 为第三个参数 "/index"
         me.add("/", IndexController.class, "/index");
         // 第三个参数省略时， basePath 取第一个参数的值 : "/project"
         me.add("/project", ProjectController.class);
-        me.add("/testGetFile", ProjectController.class);
-        me.add("/testQrCode", ProjectController.class);
-        me.add("/testSetSession", ProjectController.class);
-        me.add("/testGetSession", ProjectController.class);
-        me.add("/upload", ProjectController.class);
-        me.add("/testUploadFile", ProjectController.class);
-        me.add("/gotoUploadFile", ProjectController.class);
-        //网络上的(暂时以没有成功)
-        me.add("/uploadFile", ProjectController.class);
-        me.add("/hello", IndexController.class);
-        me.add("/hello2", IndexController.class);
-        me.add("/test", IndexController.class);
-        me.add("/testParam", IndexController.class);
+
+
+
+        // me.add("/test", IndexController.class);
+        // me.add("/testParam", IndexController.class);
         me.add("/user", UserController.class);
-        me.add("/adduser", UserController.class);
-        me.add("/deluser", UserController.class);
-        me.add("/test1", UserController.class);
-        me.add("/test2", UserController.class);
-        me.add("/relation", UserController.class);
-        me.add("/test3", UserController.class);
+        // me.add("/adduser", UserController.class);
+        // me.add("/deluser", UserController.class);
+        // me.add("/test1", UserController.class);
+        // me.add("/test2", UserController.class);
+        // me.add("/relation", UserController.class);
+        // me.add("/test3", UserController.class);
     }
 
 

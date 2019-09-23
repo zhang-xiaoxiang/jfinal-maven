@@ -1,42 +1,57 @@
 package com.demo.jfinal.controller;
 
+import com.demo.jfinal.model.User;
 import com.jfinal.core.Controller;
 import com.jfinal.core.NotAction;
-import com.jfinal.core.paragetter.Para;
 import com.jfinal.kit.PropKit;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * HelloController:控制层
- * <p>
- * 一个Controller可以包含多个Action。Controller是线程安全的。
+ * IndexController:控制层(这个是用来测试的)
  *
  * @author zhangxiaoxiang
  * @date 2019/9/19
  */
 public class IndexController extends Controller {
     /**
-     * http://localhost/hello/xxx方法,如果xxx方法匹配到了就进入相应方法(方法称为Action)
-     * 没有这个就是默认的index(),如果改成index1()那么这个就达不到默认的方法的效果
+     * 默认映射路径(包含错误路径)
      */
-    // public void index() {
-    //     //     renderText("这是直接访问到接口控制层的默认方法!");
-    //     // }
+    public void index() {
+        renderText("这是直接访问到接口控制层的默认方法,错误的路径也被自动映射到这里来......");
+    }
 
     /**
-     * 在 Controller 之中定义的 public 方法称为Action,和spring boot里面的接口方法是一个意思
-     * 这里和配置类的最好一直,免得出现命名荒,哈哈
+     * 测试读取配置文件 这里写在代码耦合度高,这里测试而已
      */
-    public void hello() {
+    public void readconfig() {
         //获取键值对的值,注意乱码问题
         String proStr = PropKit.use("application.properties").get("userName");
         String proStr2 = PropKit.use("application.properties").get("email");
-        renderText("Hello JFinal World,我是 " + proStr + "  电子邮件" + proStr2);
+        renderText("测试渲染文本,并读取配置文件\n userName:" + proStr + "\temail:" + proStr2);
+    }
+
+    /**
+     * 测试渲染json  map,对象都可以哈
+     */
+    public void json(){
+        Map<String,Object> map=new HashMap<>();
+        map.put("name","我是json");
+        map.put("age",18);
+        renderJson(map);
+        User user=new User();
+        user.setUserId("12345");
+        user.setUserName("张晓祥");
+        renderJson(user);
     }
 
     public void hello2() {
         renderText("Hello JFinal World2!");
+    }
+
+    public void hello3() {
+        renderText("Hello JFinal World3!");
     }
 
     /**
@@ -55,11 +70,12 @@ public class IndexController extends Controller {
 
     /**
      * 带参的接口
+     *
      * @param param
      */
-    public void testParam(String param,Integer age) {
+    public void testParam(String param, Integer age) {
         String param1 = getPara("param");
         Integer age1 = getInt("age");
-        renderText("请求参数是姓名:" +param1+"  年龄  "+age1);
+        renderText("请求参数是姓名:" + param1 + "  年龄  " + age1);
     }
 }
