@@ -10,6 +10,8 @@ import com.jfinal.kit.PropKit;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
+import com.jfinal.render.FreeMarkerRender;
+import com.jfinal.render.ViewType;
 import com.jfinal.template.Engine;
 
 /**
@@ -31,9 +33,11 @@ public class JfinalConfig extends JFinalConfig {
         //配置一个模块对应的controller,里面可以包含很多接口(就是action哈,老夫叫不惯)
         me.add("/index", IndexController.class);
 
-        me.setBaseViewPath("src/webapp/WEB-INF/view");
-        // basePath 为第三个参数 "/index"
-        me.add("/", IndexController.class, "/index");
+        // me.setBaseViewPath("src/webapp/WEB-INF/view");
+
+        me.setBaseViewPath("/WEB-INF/template");
+
+
         // 第三个参数省略时， basePath 取第一个参数的值 : "/project"
         me.add("/project", ProjectController.class);
 
@@ -70,6 +74,10 @@ public class JfinalConfig extends JFinalConfig {
         // jfinal 官方提供了 Json  抽象类的三个实现：JFinalJson、FastJson、Jackson，
         // 如果不进行配置，那么默认使用 JFinalJson 实现(注意添加相关的依赖)
         me.setJsonFactory(new FastJsonFactory());
+    //    设置模板引擎(枚举类型)
+        me.setViewType(ViewType.FREE_MARKER);
+
+
     }
 
 

@@ -33,26 +33,42 @@ public class IndexController extends Controller {
     }
 
     /**
+     * 测试渲染文本
+     */
+    public void text() {
+        renderText("我是渲染文本!");
+    }
+
+    /**
      * 测试渲染json  map,对象都可以哈
      */
-    public void json(){
-        Map<String,Object> map=new HashMap<>();
-        map.put("name","我是json");
-        map.put("age",18);
+    public void json() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", "我是json");
+        map.put("age", 18);
         renderJson(map);
-        User user=new User();
+        User user = new User();
         user.setUserId("12345");
         user.setUserName("张晓祥");
         renderJson(user);
     }
 
-    public void hello2() {
-        renderText("Hello JFinal World2!");
+    /**
+     * 测试渲染存HTML
+     */
+    public void html() {
+        renderHtml("<h2 style='color: red'>测试渲染存HTML</h2");
     }
 
-    public void hello3() {
-        renderText("Hello JFinal World3!");
+    /**
+     * 测试渲染FreeMarker
+     */
+    public void ftl() {
+        setAttr("name", "我是FreeMarker哈哈哈");
+        renderFreeMarker("index.ftl");
+
     }
+
 
     /**
      * 不希望成为 action，仅供子类调用，或拦截器中调用
