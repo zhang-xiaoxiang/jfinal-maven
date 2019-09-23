@@ -27,6 +27,7 @@
             <artifactId>lombok</artifactId>
             <version>1.18.10</version>
         </dependency>
+
         <!--使用 renderQrCode 方法需要引入第三方依赖-->
         <dependency>
             <groupId>com.google.zxing</groupId>
@@ -68,7 +69,7 @@
     </dependencies>
 
 
-    <build>
+  <!--  <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -81,16 +82,16 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
+                <version>3.6.0</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
                     <encoding>UTF-8</encoding>
-                    <!-- java8 保留参数名编译参数 -->
+                    &lt;!&ndash; java8 保留参数名编译参数 &ndash;&gt;
                     <compilerArgument>-parameters</compilerArgument>
                 </configuration>
             </plugin>
         </plugins>
-    </build>
+    </build>-->
 
 </project>

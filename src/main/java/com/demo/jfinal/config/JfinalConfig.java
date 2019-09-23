@@ -33,14 +33,13 @@ public class JfinalConfig extends JFinalConfig {
         //配置一个模块对应的controller,里面可以包含很多接口(就是action哈,老夫叫不惯)
         me.add("/index", IndexController.class);
 
-        // me.setBaseViewPath("src/webapp/WEB-INF/view");
+        me.setBaseViewPath("src/webapp/WEB-INF/view");
 
-        me.setBaseViewPath("/WEB-INF/template");
+        // me.setBaseViewPath("/WEB-INF/Template");
 
 
         // 第三个参数省略时， basePath 取第一个参数的值 : "/project"
         me.add("/project", ProjectController.class);
-
 
 
         // me.add("/test", IndexController.class);
@@ -73,9 +72,9 @@ public class JfinalConfig extends JFinalConfig {
         me.setInjectSuperClass(true);
         // jfinal 官方提供了 Json  抽象类的三个实现：JFinalJson、FastJson、Jackson，
         // 如果不进行配置，那么默认使用 JFinalJson 实现(注意添加相关的依赖)
-        me.setJsonFactory(new FastJsonFactory());
-    //    设置模板引擎(枚举类型)
-        me.setViewType(ViewType.FREE_MARKER);
+        // me.setJsonFactory(new FastJsonFactory());
+        //    设置模板引擎(枚举类型)
+        // me.setViewType(ViewType.FREE_MARKER);
 
 
     }
@@ -90,10 +89,14 @@ public class JfinalConfig extends JFinalConfig {
     public void configEngine(Engine me) {
         // 支持模板热加载，绝大多数生产环境下也建议配置成 true，除非是极端高性能的场景
         me.setDevMode(true);
+
         // 添加共享模板函数
-        me.addSharedFunction("src/webapp/WEB-INF/view/common/share.html");
+        // me.setBaseTemplatePath("src/webapp/WEB-INF/view");
+        // me.addSharedFunction("/index.html");
+
         // 配置极速模式，性能提升 13%
         Engine.setFastMode(true);
+
     }
 
     /**

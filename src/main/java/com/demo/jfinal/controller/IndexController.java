@@ -61,11 +61,12 @@ public class IndexController extends Controller {
     }
 
     /**
-     * 测试渲染FreeMarker
+     * 测试渲染推荐的enjoy引擎
      */
-    public void ftl() {
-        setAttr("name", "我是FreeMarker哈哈哈");
-        renderFreeMarker("index.ftl");
+    public void enjoy() {
+        String name = get("name");
+        set("name", name);
+        render("index.html");
 
     }
 
