@@ -3,6 +3,7 @@ package com.demo.jfinal.controller;
 import com.demo.jfinal.exception.ControllerException;
 import com.demo.jfinal.interceptor.DemoInterceptor;
 import com.demo.jfinal.model.User;
+import com.demo.jfinal.result.PageResponse;
 import com.demo.jfinal.result.ResultData;
 import com.demo.jfinal.service.UserService;
 import com.jfinal.aop.Before;
@@ -114,8 +115,9 @@ public class UserController extends Controller {
     public void testpage() {
         Integer pageNumber = getParaToInt(0,1);
         Integer pageSize = getParaToInt(1,5);
-        List<User> testpage = userService.testpage(pageNumber,pageSize);
-        renderJson("data", testpage);
+        PageResponse pageResponse = userService.testpage(pageNumber, pageSize);
+
+        renderJson( ResultData.success("分页详情查询成功!",pageResponse));
     }
 
     /**
@@ -130,9 +132,9 @@ public class UserController extends Controller {
      * 测试模板引擎
      */
     public void test3() {
-        List<User> testpage = userService.testpage(1,2);
+        PageResponse pageResponse = userService.testpage(1, 2);
         setAttr("key", "张晓祥测试指令哈");
-        setAttr("testpage", testpage);
+        setAttr("testpage", pageResponse);
         render("share.html");
     }
 

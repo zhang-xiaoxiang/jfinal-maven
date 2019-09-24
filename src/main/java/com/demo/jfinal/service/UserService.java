@@ -2,12 +2,13 @@ package com.demo.jfinal.service;
 
 import com.demo.jfinal.model.Address;
 import com.demo.jfinal.model.User;
-import com.jfinal.core.paragetter.Para;
+import com.demo.jfinal.result.PageResponse;
+import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
+import javafx.scene.control.Pagination;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,6 +18,8 @@ import java.util.List;
  * @date 2019/9/20
  */
 public class UserService {
+    @Inject
+  private   PageResponse pageResponse;
     /**
      * 这里相当于注入dao
      */
@@ -86,16 +89,14 @@ public class UserService {
     }
 
     /**
-     * 测试分页
+     * 测试分页(不带条件的)
      * @return
      */
-    public List<User> testpage(int pageNumber,int pageSize) {
+    public PageResponse testpage(int pageNumber, int pageSize) {
         Page<User> paginate = DAO.paginate(pageNumber, pageSize, "select *", "from user ");
+        pageResponse.setPageDataList(paginate);
         List<User> list = paginate.getList();
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i));
-        }
-        return list;
+        return pageResponse;
     }
 
     /**
