@@ -121,6 +121,25 @@ public class UserController extends Controller {
     }
 
     /**
+     * SQL 模板与查询
+     */
+    public void sqldemo() {
+        String sql = Db.getSql("user.findGirl");
+        List<Record> records = Db.find(sql, "0");
+        renderJson(records);
+
+    }
+    /**
+     * SQL 模板与查询2
+     */
+    public void sqldemo2() {
+        // Db.template 用法（jfinal 4.0 新增）
+        List<Record> records = Db.template("user.findcqboy", "重庆", 1).find();
+        renderJson(records);
+
+    }
+
+    /**
      * 测试连表查询
      */
     public void relation() {

@@ -107,6 +107,8 @@ public class JfinalConfig extends JFinalConfig {
         //开启调试模式的SQL显示
         arp.setShowSql(true);
         arp.setDevMode(true);
+        //配置SQL 模板与查询
+        arp.addSqlTemplate("all.sql");
         //*****************************************************************************************
         //_MappingKit.mapping(arp); 这是生成后添加的_MappingKit这是官方起的名字,这里不配置操作数据库就会出现空指针
         //*****************************************************************************************
