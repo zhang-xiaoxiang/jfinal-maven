@@ -65,6 +65,7 @@ public class JfinalConfig extends JFinalConfig {
         // me.setViewType(ViewType.FREE_MARKER);
 
 
+
     }
 
 

@@ -7,6 +7,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,8 +24,8 @@ public class UserService {
     /**
      * 用于  Db + Record模式
      */
-    private static final String TABLENAME ="user";
-    private static final String PRIMARYKEY ="user_id";
+    private static final String TABLENAME = "user";
+    private static final String PRIMARYKEY = "user_id";
 
     /**
      * 查询所有的用户(常规操作)
@@ -55,8 +56,24 @@ public class UserService {
      */
     public boolean deluser(String userId) {
         //注意主键(不是默认的id就要用重载的方法)
-        return Db.deleteById(TABLENAME,PRIMARYKEY , userId);
+        return Db.deleteById(TABLENAME, PRIMARYKEY, userId);
     }
+
+    /**
+     * 修改用户(加入事物)
+     *
+     * @return
+     */
+    public boolean upduser() {
+        User user = new User();
+        user.setUserId("124");
+        Db.tx(() -> {
+            Record record = Db.findById(TABLENAME, PRIMARYKEY, user.getUserId()).set("user_name", "我是修改后的2");
+            return Db.update(TABLENAME, PRIMARYKEY, record);
+        });
+        return false;
+    }
+
 
     /**
      * 根据ID查询用户
@@ -68,8 +85,12 @@ public class UserService {
         return Db.findById(TABLENAME, PRIMARYKEY, userId);
     }
 
-    public List<User> testpage() {
-        Page<User> paginate = DAO.paginate(2, 2, "select *", "from user ");
+    /**
+     * 测试分页
+     * @return
+     */
+    public List<User> testpage(int pageNumber,int pageSize) {
+        Page<User> paginate = DAO.paginate(pageNumber, pageSize, "select *", "from user ");
         List<User> list = paginate.getList();
         for (int i = 0; i < list.size(); i++) {
             System.out.println(list.get(i));

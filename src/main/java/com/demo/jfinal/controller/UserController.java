@@ -8,9 +8,11 @@ import com.demo.jfinal.service.UserService;
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Inject;
 import com.jfinal.core.Controller;
+import com.jfinal.core.paragetter.Para;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,7 +21,7 @@ import java.util.List;
  * @author zhangxiaoxiang
  * @date 2019/9/20
  */
- @Before(ControllerException.class)
+@Before(ControllerException.class)
 public class UserController extends Controller {
     /**
      * 自动注入,类比spring 自动注入
@@ -27,14 +29,18 @@ public class UserController extends Controller {
     @Inject
     UserService userService;
 
-
+    /**
+     * 查询全部用户
+     */
     public void user() {
         List<User> user = userService.user();
         renderText("全查询用户:  " + user);
     }
 
+    /**
+     * 增加用户
+     */
     public void saveuser() {
-
         boolean adduser = userService.saveuser();
         if (adduser) {
             renderJson(ResultData.success("添加成功!"));
@@ -43,6 +49,9 @@ public class UserController extends Controller {
         }
     }
 
+    /**
+     * 根据ID删除用户
+     */
     public void deluser() {
         String userId = get("userId");
         boolean adduser = userService.deluser(userId);
@@ -53,29 +62,59 @@ public class UserController extends Controller {
         }
     }
 
+    /**
+     * 更新用户
+     */
+    public void upduser() {
+        try {
+            userService.upduser();
+            renderJson(ResultData.success("修改成功!"));
+        } catch (Exception e) {
+            e.fillInStackTrace();
+            renderJson(ResultData.error("修改失败"));
+        }
+
+    }
+
+
     //---------------------    直接在controller层使用Db + Record模式貌似也行    -------------------------------------
 
 
-
+    /**
+     * 根据ID查询用户
+     */
     public void getuser() {
         Record user = userService.findUser(get("userId"));
         renderJson(ResultData.success("查询成功!", user));
-
-
     }
 
+    /**
+     * 当 select 后的字段只有一个时，可以使用合适的泛型接收数据
+     */
+    public void queryone() {
+        List<String> list = Db.query("select  user_name from user");
+        System.out.println(list);
+        list.forEach(objects -> System.out.println(list.toString()));
+        renderJson(ResultData.success("查询字段成功", list));
+    }
 
-    public void test1() {
+    /**
+     * 当 select 后的字段多个时,必须使用 List<Object[]> 接收
+     */
+    public void querymany() {
         List<Object[]> list = Db.query("select user_id, user_name, user_password from user");
         System.out.println(list);
         list.forEach(objects -> System.out.println(list.toString()));
-        renderText("测试查询多个字段");
+        renderJson(ResultData.success("查询字段成功", list));
     }
 
-    public void test2() {
-        List<User> testpage = userService.testpage();
-        // renderText("测试分页");
-
+    /**
+     * 测试分页,路径参数获取方式,url符合rest风格,但是不完全是,注意getParaToInt(),参考官方文档
+     */
+    public void testpage() {
+        Integer pageNumber = getParaToInt(0,1);
+        Integer pageSize = getParaToInt(1,5);
+        List<User> testpage = userService.testpage(pageNumber,pageSize);
         renderJson("data", testpage);
     }
 
@@ -91,7 +130,7 @@ public class UserController extends Controller {
      * 测试模板引擎
      */
     public void test3() {
-        List<User> testpage = userService.testpage();
+        List<User> testpage = userService.testpage(1,2);
         setAttr("key", "张晓祥测试指令哈");
         setAttr("testpage", testpage);
         render("share.html");
