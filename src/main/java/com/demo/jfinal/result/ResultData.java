@@ -19,7 +19,7 @@ public class ResultData {
         Result result = new Result();
         result.setCode(200);
         result.setMsg(msg);
-        result.setData(null);
+        result.setData("");
         return result;
     }
 
@@ -47,7 +47,7 @@ public class ResultData {
         Result result = new Result();
         result.setCode(500);
         result.setMsg(msg);
-        result.setData(null);
+        result.setData("");
         return result;
     }
 
@@ -61,7 +61,7 @@ public class ResultData {
         Result result = new Result();
         result.setCode(code);
         result.setMsg(msg);
-        result.setData(null);
+        result.setData("");
         return result;
     }
 
@@ -75,7 +75,7 @@ public class ResultData {
         Result result = new Result();
         result.setCode(401);
         result.setMsg(msg);
-        result.setData(null);
+        result.setData("");
         return result;
     }
 }

@@ -1,10 +1,16 @@
 package com.demo.jfinal.controller;
 
+import com.demo.jfinal.exception.ControllerException;
+import com.demo.jfinal.exception.GlobalExceptions;
+import com.demo.jfinal.interceptor.DemoInterceptor;
 import com.demo.jfinal.model.User;
+import com.demo.jfinal.result.ResultData;
 import com.demo.jfinal.service.UserService;
+import com.jfinal.aop.Before;
 import com.jfinal.aop.Inject;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Record;
 
 import java.util.List;
 
@@ -14,36 +20,50 @@ import java.util.List;
  * @author zhangxiaoxiang
  * @date 2019/9/20
  */
+@Before(ControllerException.class)
 public class UserController extends Controller {
     /**
-     * 自动注入,类比spring
+     * 自动注入,类比spring 自动注入
      */
     @Inject
     UserService userService;
+
 
     public void user() {
         List<User> user = userService.user();
         renderText("全查询用户:  " + user);
     }
 
-    public void adduser() {
-        boolean adduser = userService.adduser();
+    public void saveuser() {
+        boolean adduser = userService.saveuser();
         if (adduser) {
-            renderText("添加成功!");
+            renderJson(ResultData.success("添加成功!"));
         } else {
-            renderText("添加失败!");
+            renderJson(ResultData.success("添加失败!"));
         }
     }
 
     public void deluser() {
-        boolean adduser = userService.deluser();
+        String userId = get("userId");
+        boolean adduser = userService.deluser(userId);
         if (adduser) {
             renderText("删除成功!");
         } else {
             renderText("删除失败!");
         }
     }
-    //    直接在controller层使用Db + Record模式貌似也行
+
+    //---------------------    直接在controller层使用Db + Record模式貌似也行    -------------------------------------
+
+
+
+    public void getuser() {
+        Record user = userService.findUser(get("userId"));
+        renderJson(ResultData.success("查询成功!", user));
+
+
+    }
+
 
     public void test1() {
         List<Object[]> list = Db.query("select user_id, user_name, user_password from user");

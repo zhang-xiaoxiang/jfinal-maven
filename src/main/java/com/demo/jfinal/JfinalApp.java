@@ -13,7 +13,7 @@ public class JfinalApp {
     public static void main(String[] args) {
         UndertowServer.start(JfinalConfig.class, 80, true);
         System.out.println("页面       http://localhost/project/project");
-        System.out.println("返回字符串  http://localhost/index/xxx");
+        System.out.println("返回字符串  http://localhost/index/");
         System.out.println("查询数据库  http://localhost/user/user");
     }
 }

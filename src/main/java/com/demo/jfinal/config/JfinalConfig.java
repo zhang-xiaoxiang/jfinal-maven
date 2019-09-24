@@ -114,6 +114,9 @@ public class JfinalConfig extends JFinalConfig {
         me.add(dp);
         ActiveRecordPlugin arp = new ActiveRecordPlugin(dp);
         me.add(arp);
+        //开启调试模式的SQL显示
+        arp.setShowSql(true);
+        arp.setDevMode(true);
         //下面是手动配置的(不推荐)
         // arp.addMapping("user", "user_id",User.class);
         //这是生成后添加的_MappingKit这是官方起的名字(建议不用改了),这里不配置操作数据库就会出现空指针
@@ -127,15 +130,7 @@ public class JfinalConfig extends JFinalConfig {
         engine.addSharedMethod(new StrKit());
         me.add(arp);
 
-        // 创建一个 Engine 对象并进行配置
-        // Engine forEmail = Engine.create("forEmail");
-        // forEmail.addSharedMethod(EmailKit.class);
-        // forEmail.addSharedFunction("email-function.txt");
 
-        // 创建另一个 Engine 对象并进行配置
-        //         Engine forWeixin = Engine.create("forWeixin");
-        //         forWeixin.addSharedMethod(WeixinKit.class);
-        //         forWeixin.addSharedFunction("weixin-function.txt");
 
 
     }
