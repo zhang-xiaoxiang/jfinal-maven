@@ -3,6 +3,8 @@ package com.demo.jfinal.config;
 import com.demo.jfinal.controller.IndexController;
 import com.demo.jfinal.controller.ProjectController;
 import com.demo.jfinal.controller.UserController;
+import com.demo.jfinal.exception.ControllerException;
+import com.demo.jfinal.exception.ServiceException;
 import com.demo.jfinal.model._MappingKit;
 import com.jfinal.config.*;
 import com.jfinal.json.FastJsonFactory;
@@ -31,26 +33,12 @@ public class JfinalConfig extends JFinalConfig {
     @Override
     public void configRoute(Routes me) {
         //配置一个模块对应的controller,里面可以包含很多接口(就是action哈,老夫叫不惯)
-        me.add("/index", IndexController.class);
-
         me.setBaseViewPath("src/webapp/WEB-INF/view");
-
-        // me.setBaseViewPath("/WEB-INF/Template");
-
-
         // 第三个参数省略时， basePath 取第一个参数的值 : "/project"
         me.add("/project", ProjectController.class);
-
-
-        // me.add("/test", IndexController.class);
-        // me.add("/testParam", IndexController.class);
+        me.add("/index", IndexController.class);
         me.add("/user", UserController.class);
-        // me.add("/adduser", UserController.class);
-        // me.add("/deluser", UserController.class);
-        // me.add("/test1", UserController.class);
-        // me.add("/test2", UserController.class);
-        // me.add("/relation", UserController.class);
-        // me.add("/test3", UserController.class);
+
     }
 
 
@@ -100,30 +88,30 @@ public class JfinalConfig extends JFinalConfig {
     }
 
     /**
-     * 此方法用来配置JFinal的Plugin，操作数据库的
-     * 如下代码配置了Druid数据库连接池插件与ActiveRecord数据库访问插件。
-     * 通过以下的配置，可以在应用中使用ActiveRecord非常方便地操作数据库
+     * 此方法用来配置JFinal的各种插件Plugin,比如数据库,模板引擎
      *
      * @param me
      */
     @Override
     public void configPlugin(Plugins me) {
+        //-------------------------------------------配置数据库-------------------------------------------
+        //配置数据源
         DruidPlugin dp = new DruidPlugin(PropKit.use("application.properties").get("jdbcUrl"),
                 PropKit.use("application.properties").get("user"),
                 PropKit.use("application.properties").get("password").trim());
         me.add(dp);
+        //jfinal数据库插件
         ActiveRecordPlugin arp = new ActiveRecordPlugin(dp);
         me.add(arp);
         //开启调试模式的SQL显示
         arp.setShowSql(true);
         arp.setDevMode(true);
-        //下面是手动配置的(不推荐)
-        // arp.addMapping("user", "user_id",User.class);
-        //这是生成后添加的_MappingKit这是官方起的名字(建议不用改了),这里不配置操作数据库就会出现空指针
+        //*****************************************************************************************
+        //_MappingKit.mapping(arp); 这是生成后添加的_MappingKit这是官方起的名字,这里不配置操作数据库就会出现空指针
+        //*****************************************************************************************
         _MappingKit.mapping(arp);
 
-
-        //配置模板引擎
+        //-------------------------------------------配置模板引擎-------------------------------------------
         Engine engine = arp.getEngine();
         // 上面的代码获取到了用于 sql 管理功能的 Engine 对象，接着就可以开始配置了
         engine.setToClassPathSourceFactory();
@@ -131,12 +119,10 @@ public class JfinalConfig extends JFinalConfig {
         me.add(arp);
 
 
-
-
     }
 
     /**
-     * 逆向生成数据库需要的插件
+     * 逆向生成数据库需要的插件(自己写的,方便main方法调用)
      *
      * @return
      */
@@ -156,8 +142,11 @@ public class JfinalConfig extends JFinalConfig {
      */
     @Override
     public void configInterceptor(Interceptors me) {
-        //暂时不配置
-        // me.add(new AuthInterceptor());
+        // 添加控制层全局拦截器
+        me.addGlobalActionInterceptor(new ControllerException());
+        // 添加业务层全局拦截器
+        // me.addGlobalServiceInterceptor(new ServiceException());
+        //    替他拦截器(登录验证,日志等...)
     }
 
     /**

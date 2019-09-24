@@ -5,6 +5,8 @@ import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 
+import java.util.Arrays;
+
 /**
  * ControllerException:控制器异常拦截
  * @author zhangxiaoxiang
@@ -16,7 +18,6 @@ public class ControllerException implements Interceptor {
     public void intercept(Invocation inv) {
         //获取到调用的控制器
         Controller controller = inv.getController();
-        System.out.println("控制层异常拦截--------AOP-------前");
         try {
             inv.invoke();
         } catch (Exception e) {

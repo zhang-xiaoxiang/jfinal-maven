@@ -44,7 +44,7 @@ public class UserService {
      */
     public boolean saveuser() {
         //注意主键
-        Record user = new Record().set("user_id", "123").set("user_name", "我是jfinal添加的用户").set("user_phone", "13512345678");
+        Record user = new Record().set("user_id", "124").set("user_name", "我是jfinal添加的用户").set("user_phone", "13512345678");
         return Db.save("user", user);
     }
 
