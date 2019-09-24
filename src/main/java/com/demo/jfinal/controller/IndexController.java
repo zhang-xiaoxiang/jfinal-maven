@@ -20,6 +20,20 @@ public class IndexController extends Controller {
      */
     public void index() {
         renderText("这是直接访问到接口控制层的默认方法,错误的路径也被自动映射到这里来......");
+
+    }
+    public void main() {
+        System.out.println("main----------->>>");
+        render("layui.html");
+    }
+
+    public void css() {
+        System.out.println("css----------->>>");
+        render("layui/css/layui.css");
+    }
+    public void js() {
+        System.out.println("js----------->>>");
+        render("layui/layui.js");
     }
 
     /**

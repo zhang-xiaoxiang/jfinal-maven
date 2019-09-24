@@ -34,7 +34,10 @@ public class JfinalConfig extends JFinalConfig {
     public void configRoute(Routes me) {
         //配置一个模块对应的controller,里面可以包含很多接口(就是action哈,老夫叫不惯)
         me.setBaseViewPath("src/webapp/WEB-INF/view");
+        // me.setBaseViewPath("src/webapp/");
         // 第三个参数省略时， basePath 取第一个参数的值 : "/project"
+        // 第三个参数省略时， basePath 取第一个参数的值 : "/project"
+        me.add("/", IndexController.class);
         me.add("/project", ProjectController.class);
         me.add("/index", IndexController.class);
         me.add("/user", UserController.class);
