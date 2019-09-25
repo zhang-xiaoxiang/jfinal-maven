@@ -29,6 +29,7 @@ public class IndexController extends Controller {
 
     public void css() {
         System.out.println("css----------->>>");
+
         render("layui/css/layui.css");
     }
     public void js() {

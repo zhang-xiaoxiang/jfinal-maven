@@ -1,7 +1,6 @@
 package com.demo.jfinal.controller;
 
-import com.demo.jfinal.exception.ControllerException;
-import com.demo.jfinal.interceptor.DemoInterceptor;
+import com.demo.jfinal.interceptor.AllInterceptor;
 import com.demo.jfinal.model.User;
 import com.demo.jfinal.result.PageResponse;
 import com.demo.jfinal.result.ResultData;
@@ -9,11 +8,9 @@ import com.demo.jfinal.service.UserService;
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Inject;
 import com.jfinal.core.Controller;
-import com.jfinal.core.paragetter.Para;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,7 +19,7 @@ import java.util.List;
  * @author zhangxiaoxiang
  * @date 2019/9/20
  */
-@Before(ControllerException.class)
+@Before(AllInterceptor.class)
 public class UserController extends Controller {
     /**
      * 自动注入,类比spring 自动注入

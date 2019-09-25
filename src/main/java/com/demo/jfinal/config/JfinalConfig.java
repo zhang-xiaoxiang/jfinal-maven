@@ -3,17 +3,13 @@ package com.demo.jfinal.config;
 import com.demo.jfinal.controller.IndexController;
 import com.demo.jfinal.controller.ProjectController;
 import com.demo.jfinal.controller.UserController;
-import com.demo.jfinal.exception.ControllerException;
-import com.demo.jfinal.exception.ServiceException;
+import com.demo.jfinal.interceptor.ControllerException;
 import com.demo.jfinal.model._MappingKit;
 import com.jfinal.config.*;
-import com.jfinal.json.FastJsonFactory;
 import com.jfinal.kit.PropKit;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
-import com.jfinal.render.FreeMarkerRender;
-import com.jfinal.render.ViewType;
 import com.jfinal.template.Engine;
 
 /**
