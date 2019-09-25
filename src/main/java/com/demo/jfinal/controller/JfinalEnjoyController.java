@@ -4,9 +4,7 @@ import com.demo.jfinal.interceptor.AllInterceptor;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * JfinalEnjoyController:测试jfinal模板引擎的
@@ -27,6 +25,10 @@ public class JfinalEnjoyController extends Controller {
         list.add("3");
         System.out.println(list.size());
         set("stringList",list);
+        Map<String,Object> map=new HashMap<>();
+        map.put("mapkey","mapvalue");
+        map.put("mapkey2",true);
+        set("map",map);
         render("index.html");
     }
 }
