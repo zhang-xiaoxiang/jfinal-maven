@@ -5,9 +5,9 @@
     <title>测试jfinal的模板引擎</title>
 </head>
 <body>
-<h3>
-    你好,#(name),如果是空值也不会报异常(URL传参方式?参数key=value)
-</h3>
+<h5>后台  set("name", name); 属性渲染==> #(name)</h5>
+<h5>后台   set("stringList",stringList); 集合长度==> #(stringList.size())</h5>
+<h5>("ABCDE".substring(0, 3))   模板渲染==> #("ABCDE".substring(0, 3))</h5>
 
 
 </body>
