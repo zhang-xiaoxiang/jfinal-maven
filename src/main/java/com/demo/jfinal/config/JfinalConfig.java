@@ -1,6 +1,7 @@
 package com.demo.jfinal.config;
 
 import com.demo.jfinal.controller.IndexController;
+import com.demo.jfinal.controller.JfinalEnjoyController;
 import com.demo.jfinal.controller.ProjectController;
 import com.demo.jfinal.controller.UserController;
 import com.demo.jfinal.interceptor.ControllerException;
@@ -34,9 +35,14 @@ public class JfinalConfig extends JFinalConfig {
         // 第三个参数省略时， basePath 取第一个参数的值 : "/project"
         // 第三个参数省略时， basePath 取第一个参数的值 : "/project"
         me.add("/", IndexController.class);
+        //模拟一个项目的模块
         me.add("/project", ProjectController.class);
+        //感受jfinal模块哈哈哈
         me.add("/index", IndexController.class);
+        //用户模块
         me.add("/user", UserController.class);
+        //模板引擎模块
+        me.add("/enjoy", JfinalEnjoyController.class);
 
     }
 

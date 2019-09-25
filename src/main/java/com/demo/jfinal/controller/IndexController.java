@@ -1,6 +1,8 @@
 package com.demo.jfinal.controller;
 
+import com.demo.jfinal.interceptor.AllInterceptor;
 import com.demo.jfinal.model.User;
+import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.core.NotAction;
 import com.jfinal.kit.PropKit;
@@ -14,6 +16,7 @@ import java.util.Map;
  * @author zhangxiaoxiang
  * @date 2019/9/19
  */
+@Before(AllInterceptor.class)
 public class IndexController extends Controller {
     /**
      * 默认映射路径(包含错误路径)
@@ -75,15 +78,7 @@ public class IndexController extends Controller {
         renderHtml("<h2 style='color: red'>测试渲染存HTML</h2");
     }
 
-    /**
-     * 测试渲染推荐的enjoy引擎
-     */
-    public void enjoy() {
-        String name = get("name");
-        set("name", name);
-        render("index.html");
 
-    }
 
 
     /**

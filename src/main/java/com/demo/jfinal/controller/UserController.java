@@ -118,6 +118,17 @@ public class UserController extends Controller {
     }
 
     /**
+     * 测试分页,路径参数获取方式,url符合rest风格,但是不完全是,注意getParaToInt(),参考官方文档
+     */
+    public void testpage1() {
+        Integer pageNumber = getParaToInt("pageNumber",1);
+        Integer pageSize = getParaToInt("pageSize",5);
+        PageResponse pageResponse = userService.testpage(pageNumber, pageSize);
+
+        renderJson( ResultData.success("分页详情查询成功!",pageResponse));
+    }
+
+    /**
      * SQL 模板与查询
      */
     public void sqldemo() {
