@@ -54,9 +54,10 @@ public class UserController extends Controller {
         String userId = get("userId");
         boolean adduser = userService.deluser(userId);
         if (adduser) {
-            renderText("删除成功!");
+            renderJson(ResultData.success("删除成功!"));
+
         } else {
-            renderText("删除失败!");
+            renderJson(ResultData.success("删除失败!"));
         }
     }
 
